@@ -1,0 +1,64 @@
+﻿@page "/vacancy"
+@using OakwoodPropertyManagementPrototype.Models
+@using OakwoodPropertyManagementPrototype.Data
+
+<PageTitle>Vacant Units</PageTitle>
+
+<h1 class="text-center mb-4">Vacant Units & Applications</h1>
+
+<h4>Vacant Units</h4>
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Unit ID</th>
+            <th>Property</th>
+            <th>Size</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var unit in SeedData.VacantUnits)
+        {
+            <tr>
+                <td>@unit.UnitId</td>
+                <td>@unit.PropertyName</td>
+                <td>@unit.Size</td>
+                <td>
+                    @if (unit.Status == "Vacant")
+                    {
+                        <span class="badge bg-success">@unit.Status</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning text-dark">@unit.Status</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4 class="mt-4">Submit Application</h4>
+<div class="card p-4 shadow">
+    <div class="mb-3">
+        <label for="name" class="form-label">Full Name</label>
+        <input type="text" id="name" class="form-control" placeholder="Enter full name" />
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" class="form-control" placeholder="Enter email" />
+    </div>
+
+    <div class="mb-3">
+        <label for="unit" class="form-label">Select Unit</label>
+        <select id="unit" class="form-select">
+            @foreach (var unit in SeedData.VacantUnits)
+            {
+                <option>@unit.UnitId - @unit.PropertyName</option>
+            }
+        </select>
+    </div>
+
+    <button class="btn btn-primary">Submit Application</button>
+</div>

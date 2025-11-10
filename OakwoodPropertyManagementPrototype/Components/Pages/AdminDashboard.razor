@@ -1,0 +1,51 @@
+﻿@page "/admin-dashboard"
+@using OakwoodPropertyManagementPrototype.Models
+@using OakwoodPropertyManagementPrototype.Data
+
+<PageTitle>Admin Dashboard</PageTitle>
+
+<h1 class="text-center mb-4">Admin Dashboard</h1>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card p-3 shadow text-center">
+            <h5>Total Rent Collected</h5>
+            <p class="fs-4">@SeedData.Payments.Sum(p => p.Amount).ToString("C0", System.Globalization.CultureInfo.CreateSpecificCulture("en-ZA"))</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 shadow text-center">
+            <h5>Occupancy Rate</h5>
+            <p class="fs-4">@((SeedData.Leases.Count * 100) / (SeedData.Leases.Count + SeedData.VacantUnits.Count))%</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 shadow text-center">
+            <h5>Pending Maintenance</h5>
+            <p class="fs-4">@SeedData.MaintenanceRequests.Count(r => r.Status != "Completed") Requests</p>
+        </div>
+    </div>
+</div>
+
+<h4>Maintenance Backlog</h4>
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Request ID</th>
+            <th>Tenant</th>
+            <th>Issue</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var req in SeedData.MaintenanceRequests)
+        {
+            <tr>
+                <td>@req.Id</td>
+                <td>@SeedData.Tenants.Find(t => t.Id == req.TenantId)?.Name</td>
+                <td>@req.Title</td>
+                <td>@req.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
